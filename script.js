@@ -1,6 +1,8 @@
 let outer = document.getElementById("game")
 let gtop = document.createElement("div")
-gtop.id = "top"
+gtop.id = "gtop"
+
+let pre = "https://cdn.jsdelivr.net/gh/GreyBeard42/minesweeper@main/"
 
 function numbers(num, e1, e2=undefined, e3=undefined) {
     if(!e3) {
@@ -9,11 +11,11 @@ function numbers(num, e1, e2=undefined, e3=undefined) {
         e1 = e1[0]
     }
     num = num.toString().split("")
-    if(num.length > 2) e1.src = `images/num0${num[num.length-3]}.png`
-    else e1.src = `images/num00.png`
-    if(num.length > 1) e2.src = `images/num0${num[num.length-2]}.png`
-    else e2.src = `images/num00.png`
-    e3.src = `images/num0${num[num.length-1]}.png`
+    if(num.length > 2) e1.src = pre+`images/num0${num[num.length-3]}.png`
+    else e1.src = pre+`images/num00.png`
+    if(num.length > 1) e2.src = pre+`images/num0${num[num.length-2]}.png`
+    else e2.src = pre+`images/num00.png`
+    e3.src = pre+`images/num0${num[num.length-1]}.png`
 }
 
 let minenums = []
@@ -21,7 +23,7 @@ let mines = document.createElement("div")
 mines.id = "numbers"
 for(let i=0; i<3; i++) {
     let num = document.createElement('img')
-    num.src = "images/num00.png"
+    num.src = pre+"images/num00.png"
     mines.appendChild(num)
     minenums.push(num)
 }
@@ -30,10 +32,10 @@ let minecount = 25
 numbers(minecount, minenums)
 
 let face = document.createElement("img")
-face.src = "images/13.png"
+face.src = pre+"images/13.png"
 face.id = "face"
 face.addEventListener("mousedown", () => {
-    face.src = "images/17.png"
+    face.src = pre+"images/17.png"
     minecount = 25
     numbers(25, minenums)
     numbers(0, timenums)
@@ -41,7 +43,7 @@ face.addEventListener("mousedown", () => {
     setup()
 })
 face.addEventListener("mouseup", () => {
-    face.src = "images/13.png"
+    face.src = pre+"images/13.png"
 })
 gtop.appendChild(face)
 
@@ -51,7 +53,7 @@ let time = document.createElement("div")
 time.id = "numbers"
 for(let i=0; i<3; i++) {
     let num = document.createElement('img')
-    num.src = "images/num00.png"
+    num.src = pre+"images/num00.png"
     time.appendChild(num)
     timenums.push(num)
 }
@@ -95,7 +97,7 @@ function setup() {
         row.id = "row"
         for(let x=0; x<18; x++) {
             let tiledata = {mine: false, clicked: false, flagged: false, x: x, y:y, reveal: () => {
-                    if(!face.src.includes("images/13.png")) return
+                    if(!face.src.includes(pre+"images/13.png")) return
                     if(grid[y][x].clicked) return
                     if(timecounter == "waiting") {
                         timecounter = setInterval(() => {
@@ -103,18 +105,18 @@ function setup() {
                             numbers(realtime, timenums)
                         }, 1000)
                     }
-                    tile.src = "images/01.png"
+                    tile.src = pre+"images/01.png"
                     grid[y][x].clicked = true
 
                     let neighbors = getneighbors(grid,x,y)
-                    if(neighbors == 1) tile.src = "images/02.png"
-                    if(neighbors == 2) tile.src = "images/03.png"
-                    if(neighbors == 3) tile.src = "images/04.png"
-                    if(neighbors == 4) tile.src = "images/05.png"
-                    if(neighbors == 5) tile.src = "images/06.png"
-                    if(neighbors == 6) tile.src = "images/07.png"
-                    if(neighbors == 7) tile.src = "images/08.png"
-                    if(neighbors == 8) tile.src = "images/09.png"
+                    if(neighbors == 1) tile.src = pre+"images/02.png"
+                    if(neighbors == 2) tile.src = pre+"images/03.png"
+                    if(neighbors == 3) tile.src = pre+"images/04.png"
+                    if(neighbors == 4) tile.src = pre+"images/05.png"
+                    if(neighbors == 5) tile.src = pre+"images/06.png"
+                    if(neighbors == 6) tile.src = pre+"images/07.png"
+                    if(neighbors == 7) tile.src = pre+"images/08.png"
+                    if(neighbors == 8) tile.src = pre+"images/09.png"
 
                     if(neighbors == 0) {
                         let queue = []
@@ -138,33 +140,33 @@ function setup() {
                     }
 
                     if(grid[y][x].mine && minecount > 0) {
-                        tile.src = "images/12.png"
-                        face.src = "images/15.png"
+                        tile.src = pre+"images/12.png"
+                        face.src = pre+"images/15.png"
                         clearInterval(timecounter)
                         grid.forEach((row) => {row.forEach((tile) => {tile.gameover()})})
                     }
-                    if(tiledata.mine && minecount < 1) tile.src = "images/11.png"
+                    if(tiledata.mine && minecount < 1) tile.src = pre+"images/11.png"
                 }, gameover: () => {
                     if(tiledata.clicked) return
-                    if(tiledata.mine) tile.src = "images/12.png"
+                    if(tiledata.mine) tile.src = pre+"images/12.png"
                 }
             }
 
             let tile = document.createElement("img")
-            tile.src = "images/00.png"
+            tile.src = pre+"images/00.png"
             tile.id = "tile"
             tile.draggable = "false"
             tile.addEventListener("click", tiledata.reveal)
             tile.addEventListener('contextmenu', (event) => {
                 event.preventDefault()
-                if(!face.src.includes("images/13.png")) return
+                if(!face.src.includes(pre+"images/13.png")) return
                 if(!grid[y][x].clicked) {
-                    if(tile.src.includes("images/10.png")) {
-                        tile.src = "images/00.png"
+                    if(tile.src.includes(pre+"images/10.png")) {
+                        tile.src = pre+"images/00.png"
                         grid[y][x].flagged = false
                         minecount++
                     } else if(minecount > 0) {
-                        tile.src = "images/10.png"
+                        tile.src = pre+"images/10.png"
                         grid[y][x].flagged= true
                         minecount--
                         if(minecount < 1) {
@@ -176,7 +178,7 @@ function setup() {
                                 clearInterval(timecounter)
                                 numbers(realtime, timenums)
                                 grid.forEach((row) => {row.forEach((tile) => {tile.reveal()})})
-                                face.src = "images/16.png"
+                                face.src = pre+"images/16.png"
                             }
                         }
                     }
