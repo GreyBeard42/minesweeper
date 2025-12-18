@@ -1,0 +1,15 @@
+{
+  "title": "Minesweeper",
+  "desc": "Minesweeper in Javascript",
+
+  "status": "archived",
+  "version": "v1",
+
+  "date": "4/26/2025",
+
+  "tags": [
+    "javascript",
+    "game",
+    "retro"
+  ]
+}
